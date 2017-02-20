@@ -21,3 +21,6 @@ bin/
 # Maven
 log/
 target/
+
+# Project
+output/
