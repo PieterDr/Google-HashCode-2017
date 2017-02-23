@@ -82,7 +82,7 @@ public class VideoStreaming extends Exercise {
             vidsInCache.put(cacheId, selected);
             List<Entry<Integer, Integer>> sorted =  entry.getValue().entrySet().stream() //
                     .sorted((a, b) -> {
-                        return b.getValue() - a.getValue();
+                        return Integer.compare(b.getValue(), a.getValue());
                     }).collect(Collectors.toList()); //
             
             sorted.forEach(videoEntry -> {
