@@ -13,7 +13,7 @@ public class Main {
     
     public static void main(String[] args) throws IOException {
 //        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
-        VideoStreaming.solve(initScanner("videostreaming/me_at_the_zoo.in"), initOutputWriter("output/video-streaming.out"));
+        VideoStreaming.solve(initScanner("me_at_the_zoo.in"), initOutputWriter("output/video-streaming.out"));
     }
 
     private static Scanner initScanner(String resource) {
