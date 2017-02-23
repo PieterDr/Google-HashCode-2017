@@ -1,25 +1,22 @@
 package com.mycompany.google.hashcode.exercises.pizza;
 
-import static java.util.Arrays.asList;
+import com.mycompany.google.hashcode.exercises.Exercise;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import javax.xml.ws.Endpoint;
 
 import static java.util.Arrays.asList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VideoStreaming extends Exercise {
 
@@ -74,7 +71,9 @@ public class VideoStreaming extends Exercise {
             }
         }
 
-        Map<Integer, List<Integer>> videosPerCacheMap = new HashMap<>();
+        Map<Integer, List<Integer>> vidsInCache = new HashMap<>();
+        Set<Integer> cachedVids = new HashSet<>();
+        
         scores.entrySet().forEach(entry -> {
             Integer cacheId = entry.getKey();
             Cache cache = caches.get(cacheId);
@@ -106,7 +105,7 @@ public class VideoStreaming extends Exercise {
             });
             System.out.println(cacheId + " " + selected);
         });
-        writeOutput(videosPerCacheMap);
+        writeOutput(vidsInCache);
         return this;
     }
 
