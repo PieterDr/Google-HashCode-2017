@@ -87,7 +87,7 @@ public class VideoStreaming extends Exercise {
             sorted.forEach(videoEntry -> {
                 Integer vidId = videoEntry.getKey();
                 Video video = videos.get(vidId);
-                if (video.size <= cacheSize.get() && !isCached(vidsInCache, cacheId, vidId)) {
+                if (video.size <= cacheSize.get() && !cachedVids.contains(vidId)) {
                     selected.add(vidId);
                     cachedVids.add(vidId);
                     cacheSize.set(cacheSize.get() - video.size);

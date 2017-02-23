@@ -31,7 +31,7 @@ public class Main {
 
     private static Scanner initScanner(String resource) {
         Scanner scanner = new Scanner(Main.class.getClassLoader().getResourceAsStream(resource));
-        scanner.useDelimiter("\r\n");
+        scanner.useDelimiter("\n");
         return scanner;
     }
 
