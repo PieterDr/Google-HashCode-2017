@@ -7,14 +7,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    
+
     public static void main(String[] args) throws IOException {
-//        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
+        // Pizza.solve(initScanner("pizza/small.in"),
+        // initOutputWriter("output/pizza.out"));
         long before = System.currentTimeMillis();
-        VideoStreaming.solve(initScanner("videos_worth_spreading.in"), initOutputWriter("output/videos_worth_spreading.out"));
+        Arrays.asList("videos_worth_spreading", "kittens", "me_at_the_zoo", "trending_today").forEach(file -> {
+            try {
+                VideoStreaming.solve(initScanner(file + ".in"), initOutputWriter("output/" + file + ".out"));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+
         long after = System.currentTimeMillis();
         System.out.println(after - before);
     }
@@ -28,5 +38,5 @@ public class Main {
     private static BufferedWriter initOutputWriter(String output) throws FileNotFoundException {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(output))));
     }
-    
+
 }

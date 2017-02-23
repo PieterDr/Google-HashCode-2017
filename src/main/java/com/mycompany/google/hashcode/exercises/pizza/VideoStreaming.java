@@ -65,7 +65,7 @@ public class VideoStreaming extends Exercise {
                         score = 0;
                     }
                     videoScores.put(desc.vidId, score + nrOfMillisSaved(endPoint.datacenterLatency,
-                            endPoint.cacheLatencyMap.get(cacheId), desc.requestAmount));
+                            endPoint.cacheLatencyMap.get(cacheId), desc.requestAmount, videos.get(desc.vidId).size));
                 });
             }
         }
@@ -150,8 +150,8 @@ public class VideoStreaming extends Exercise {
 
     }
 
-    private int nrOfMillisSaved(int dataCenterLatency, int cacheLatency, int nrOfRequests) {
-        return (dataCenterLatency - cacheLatency) * nrOfRequests;
+    private int nrOfMillisSaved(int dataCenterLatency, int cacheLatency, int nrOfRequests, int fileSize) {
+        return ((dataCenterLatency - cacheLatency) * nrOfRequests) / fileSize;
     }
 
     private void readVideos() {
