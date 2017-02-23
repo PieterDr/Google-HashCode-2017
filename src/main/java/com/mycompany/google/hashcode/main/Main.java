@@ -18,7 +18,7 @@ public class Main {
 
     private static Scanner initScanner(String resource) {
         Scanner scanner = new Scanner(Main.class.getClassLoader().getResourceAsStream(resource));
-        scanner.useDelimiter("\n");
+        scanner.useDelimiter("\r\n");
         return scanner;
     }
 
