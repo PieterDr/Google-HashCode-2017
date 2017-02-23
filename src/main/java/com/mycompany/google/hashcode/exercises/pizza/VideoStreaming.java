@@ -15,9 +15,14 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import com.mycompany.google.hashcode.exercises.Exercise;
+import javax.xml.ws.Endpoint;
+
+import static java.util.Arrays.asList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VideoStreaming extends Exercise {
+
     int amountOfVideos;
     int amountOfEndpoints;
     int amountOfRequestDescriptions;
@@ -69,8 +74,7 @@ public class VideoStreaming extends Exercise {
             }
         }
 
-        Map<Integer, List<Integer>> vidsInCache = new HashMap<>();
-        Set<Integer> cachedVids = new HashSet<>();
+        Map<Integer, List<Integer>> videosPerCacheMap = new HashMap<>();
         scores.entrySet().forEach(entry -> {
             Integer cacheId = entry.getKey();
             Cache cache = caches.get(cacheId);
@@ -102,7 +106,28 @@ public class VideoStreaming extends Exercise {
             });
             System.out.println(cacheId + " " + selected);
         });
+        writeOutput(videosPerCacheMap);
         return this;
+    }
+
+    private void writeOutput(Map<Integer, List<Integer>> videosPerCacheMap) throws IOException {
+        output.append("" + videosPerCacheMap.size());
+        videosPerCacheMap.keySet().stream()
+                .map(key -> {
+                    String selected = videosPerCacheMap.get(key).toString();
+                    selected = selected.replace("[", "");
+                    selected = selected.replace("]", "");
+                    selected = selected.replace(",", "");
+                    return key + " " + selected;
+                })
+                .forEach(result -> {
+                    try {
+                        output.newLine();
+                        output.append(result);
+                    } catch (IOException ex) {
+                        //FUCK LAMBDAS AND CHECKED EXCEPTION
+                    }
+                });
     }
 
     private void readBasicInfo() {
@@ -153,6 +178,7 @@ public class VideoStreaming extends Exercise {
     }
 
     private static class Counter {
+
         public int value = 0;
 
         public void increment() {
