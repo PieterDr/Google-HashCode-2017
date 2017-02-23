@@ -16,7 +16,7 @@ public class Main {
         // Pizza.solve(initScanner("pizza/small.in"),
         // initOutputWriter("output/pizza.out"));
         long before = System.currentTimeMillis();
-        Arrays.asList("videos_worth_spreading", "kittens", "me_at_the_zoo", "trending_today").forEach(file -> {
+        Arrays.asList(/*"videos_worth_spreading", */"kittens", "me_at_the_zoo", "trending_today").forEach(file -> {
             try {
                 VideoStreaming.solve(initScanner(file + ".in"), initOutputWriter("output/" + file + ".out"));
             } catch (IOException e) {
