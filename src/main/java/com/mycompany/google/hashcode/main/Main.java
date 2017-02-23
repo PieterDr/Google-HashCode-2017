@@ -13,7 +13,10 @@ public class Main {
     
     public static void main(String[] args) throws IOException {
 //        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
+        long before = System.currentTimeMillis();
         VideoStreaming.solve(initScanner("me_at_the_zoo.in"), initOutputWriter("output/video-streaming.out"));
+        long after = System.currentTimeMillis();
+        System.out.println(after - before);
     }
 
     private static Scanner initScanner(String resource) {

@@ -1,22 +1,21 @@
 package com.mycompany.google.hashcode.exercises.pizza;
 
-import com.mycompany.google.hashcode.exercises.Exercise;
+import static java.util.Arrays.asList;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.security.KeyStore.Entry;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
-import javax.xml.ws.Endpoint;
-
-import static java.util.Arrays.asList;
+import com.mycompany.google.hashcode.exercises.Exercise;
 
 public class VideoStreaming extends Exercise {
     int amountOfVideos;
@@ -70,22 +69,37 @@ public class VideoStreaming extends Exercise {
             }
         }
 
+        Map<Integer, List<Integer>> vidsInCache = new HashMap<>();
+        Set<Integer> cachedVids = new HashSet<>();
         scores.entrySet().forEach(entry -> {
             Integer cacheId = entry.getKey();
             Cache cache = caches.get(cacheId);
             AtomicInteger cacheSize = new AtomicInteger(cache.maxSize);
             List<Integer> selected = new ArrayList<>();
-            entry.getValue().entrySet().stream() //
+            vidsInCache.put(cacheId, selected);
+            List<Entry<Integer, Integer>> sorted =  entry.getValue().entrySet().stream() //
                     .sorted((a, b) -> {
                         return b.getValue() - a.getValue();
-                    }).forEach(videoEntry -> {
+                    }).collect(Collectors.toList()); //
+            
+            sorted.forEach(videoEntry -> {
                         Integer vidId = videoEntry.getKey();
                         Video video = videos.get(vidId);
-                        if (video.size <= cacheSize.get()) {
+                        if (video.size <= cacheSize.get() && !cachedVids.contains(vidId)) {
                             selected.add(vidId);
+                            cachedVids.add(vidId);
                             cacheSize.set(cacheSize.get() - video.size);
                         }
                     });
+            sorted.forEach(videoEntry -> {
+                Integer vidId = videoEntry.getKey();
+                Video video = videos.get(vidId);
+                if (video.size <= cacheSize.get() && !selected.contains(vidId)) {
+                    selected.add(vidId);
+                    cachedVids.add(vidId);
+                    cacheSize.set(cacheSize.get() - video.size);
+                }
+            });
             System.out.println(cacheId + " " + selected);
         });
         return this;
