@@ -14,14 +14,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
         long before = System.currentTimeMillis();
-        VideoStreaming.solve(initScanner("videos_worth_spreading.in"), initOutputWriter("output/video-streaming.out"));
+        VideoStreaming.solve(initScanner("videos_worth_spreading.in"), initOutputWriter("output/videos_worth_spreading.out"));
         long after = System.currentTimeMillis();
         System.out.println(after - before);
     }
 
     private static Scanner initScanner(String resource) {
         Scanner scanner = new Scanner(Main.class.getClassLoader().getResourceAsStream(resource));
-        scanner.useDelimiter("\n");
+        scanner.useDelimiter("\r\n");
         return scanner;
     }
 

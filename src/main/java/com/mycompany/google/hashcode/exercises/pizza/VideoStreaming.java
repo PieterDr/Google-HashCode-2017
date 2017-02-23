@@ -1,22 +1,21 @@
 package com.mycompany.google.hashcode.exercises.pizza;
 
-import com.mycompany.google.hashcode.exercises.Exercise;
+import static java.util.Arrays.asList;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-
-import static java.util.Arrays.asList;
-import java.util.HashSet;
-import java.util.Set;
+import com.mycompany.google.hashcode.exercises.Exercise;
 
 public class VideoStreaming extends Exercise {
 
@@ -73,27 +72,27 @@ public class VideoStreaming extends Exercise {
 
         Map<Integer, List<Integer>> vidsInCache = new HashMap<>();
         Set<Integer> cachedVids = new HashSet<>();
-        
+
         scores.entrySet().forEach(entry -> {
             Integer cacheId = entry.getKey();
             Cache cache = caches.get(cacheId);
             AtomicInteger cacheSize = new AtomicInteger(cache.maxSize);
             List<Integer> selected = new ArrayList<>();
             vidsInCache.put(cacheId, selected);
-            List<Entry<Integer, Integer>> sorted =  entry.getValue().entrySet().stream() //
+            List<Entry<Integer, Integer>> sorted = entry.getValue().entrySet().stream() //
                     .sorted((a, b) -> {
                         return Integer.compare(b.getValue(), a.getValue());
                     }).collect(Collectors.toList()); //
             
             sorted.forEach(videoEntry -> {
-                        Integer vidId = videoEntry.getKey();
-                        Video video = videos.get(vidId);
-                        if (video.size <= cacheSize.get() && !cachedVids.contains(vidId)) {
-                            selected.add(vidId);
-                            cachedVids.add(vidId);
-                            cacheSize.set(cacheSize.get() - video.size);
-                        }
-                    });
+                Integer vidId = videoEntry.getKey();
+                Video video = videos.get(vidId);
+                if (video.size <= cacheSize.get() && !isCached(vidsInCache, cacheId, vidId)) {
+                    selected.add(vidId);
+                    cachedVids.add(vidId);
+                    cacheSize.set(cacheSize.get() - video.size);
+                }
+            });
             sorted.forEach(videoEntry -> {
                 Integer vidId = videoEntry.getKey();
                 Video video = videos.get(vidId);
@@ -109,24 +108,36 @@ public class VideoStreaming extends Exercise {
         return this;
     }
 
+    private boolean isCached(Map<Integer, List<Integer>> vidsInCache, Integer cacheId, Integer vidId) {
+        return endpoints.entrySet().stream() //
+                .filter(e -> {
+                    return e.getValue().cacheLatencyMap.containsKey(cacheId);
+                }) //
+                .map(Entry::getValue) //
+                .map(e -> {
+                    return e.cacheLatencyMap.keySet();
+                }) //
+                .flatMap(s -> s.stream()) //
+                .map(c -> vidsInCache.get(c)) //
+                .collect(Collectors.toList()).contains(vidId);
+    }
+
     private void writeOutput(Map<Integer, List<Integer>> videosPerCacheMap) throws IOException {
         output.append("" + videosPerCacheMap.size());
-        videosPerCacheMap.keySet().stream()
-                .map(key -> {
-                    String selected = videosPerCacheMap.get(key).toString();
-                    selected = selected.replace("[", "");
-                    selected = selected.replace("]", "");
-                    selected = selected.replace(",", "");
-                    return key + " " + selected;
-                })
-                .forEach(result -> {
-                    try {
-                        output.newLine();
-                        output.append(result);
-                    } catch (IOException ex) {
-                        //FUCK LAMBDAS AND CHECKED EXCEPTION
-                    }
-                });
+        videosPerCacheMap.keySet().stream().map(key -> {
+            String selected = videosPerCacheMap.get(key).toString();
+            selected = selected.replace("[", "");
+            selected = selected.replace("]", "");
+            selected = selected.replace(",", "");
+            return key + " " + selected;
+        }).forEach(result -> {
+            try {
+                output.newLine();
+                output.append(result);
+            } catch (IOException ex) {
+                // FUCK LAMBDAS AND CHECKED EXCEPTION
+            }
+        });
     }
 
     private void readBasicInfo() {
