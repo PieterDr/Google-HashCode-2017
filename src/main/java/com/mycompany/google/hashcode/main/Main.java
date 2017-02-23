@@ -1,6 +1,6 @@
 package com.mycompany.google.hashcode.main;
 
-import com.mycompany.google.hashcode.exercises.pizza.Pizza;
+import com.mycompany.google.hashcode.exercises.pizza.VideoStreaming;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +12,8 @@ import java.util.Scanner;
 public class Main {
     
     public static void main(String[] args) throws IOException {
-        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
+//        Pizza.solve(initScanner("pizza/small.in"), initOutputWriter("output/pizza.out"));
+        VideoStreaming.solve(initScanner("video-streaming/kittens.in"), initOutputWriter("output/video-streaming.out"));
     }
 
     private static Scanner initScanner(String resource) {
