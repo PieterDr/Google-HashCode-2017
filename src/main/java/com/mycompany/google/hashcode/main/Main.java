@@ -1,6 +1,6 @@
 package com.mycompany.google.hashcode.main;
 
-import com.mycompany.google.hashcode.exercises.pizza.VideoStreaming;
+import com.mycompany.google.hashcode.exercises.videostreaming.VideoStreaming;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;

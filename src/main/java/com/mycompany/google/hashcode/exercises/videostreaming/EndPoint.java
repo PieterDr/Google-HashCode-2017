@@ -1,4 +1,4 @@
-package com.mycompany.google.hashcode.exercises.pizza;
+package com.mycompany.google.hashcode.exercises.videostreaming;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.mycompany.google.hashcode.exercises.pizza;
+package com.mycompany.google.hashcode.exercises.videostreaming;
 
 public class Video {
     
